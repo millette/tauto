@@ -1,0 +1,23 @@
+{
+  "name": "tauto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/millette/tauto.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/millette/tauto/issues"
+  },
+  "homepage": "https://github.com/millette/tauto#readme",
+  "dependencies": {
+    "minisearch": "^2.0.6"
+  }
+}
