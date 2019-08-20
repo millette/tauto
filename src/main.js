@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import TextField from 'react-autocomplete-input';
-import './bundle.css';
 
-import idx from "../inventory-idx.json"
+import idx from "./inventory-idx.json"
 
 class App extends Component {
   constructor() {
