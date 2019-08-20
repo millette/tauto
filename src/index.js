@@ -3,6 +3,8 @@ import ReactDOM, { findDOMNode } from 'react-dom';
 import TextField from 'react-autocomplete-input';
 import './bundle.css';
 
+import idx from "../inventory-idx.json"
+
 class App extends Component {
   constructor() {
     super();
@@ -75,6 +77,7 @@ class App extends Component {
       <div>
         <div>
           <h2>AutoCompletion demo</h2>
+          <pre style={{overflow: 'scroll', height: 300}}>{JSON.stringify(idx, null, 2)}</pre>
           <p><i>Hint:</i> input "@a" to see in action</p>
           <TextField
             disabled={this.state.disabled}
