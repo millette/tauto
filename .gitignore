@@ -1,4 +1,5 @@
 node_modules/
+dist/
 .env
 inventory-idx-pretty.json
 
