@@ -3,4 +3,4 @@ dist/
 .cache/
 .env
 inventory-idx-pretty.json
-
+tauto.code-workspace
