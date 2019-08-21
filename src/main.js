@@ -1,8 +1,13 @@
+// npm
 import React, { Component } from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import TextField from 'react-autocomplete-input';
+import MiniSearch from 'minisearch';
 
+// self
 import idx from "./inventory-idx.json"
+
+const searchEngine = MiniSearch.loadJSON(JSON.stringify(idx), { fields: ["h2", "summary"] })
 
 class App extends Component {
   constructor() {
@@ -20,13 +25,13 @@ class App extends Component {
 
     this.state = {
       disabled: false,
-      maxOptions: "6",
-      options: ["apple", "apricot", "banana", "bounty"],
+      maxOptions: 10,
+      options: [],
       regex: '^[a-zA-Z0-9_\\-]+$',
-      requestOnlyIfNoOptions: true,
+      requestOnlyIfNoOptions: false,
       spaceRemovers: "[',', '.', '?', '!']",
       spacer: " ",
-      trigger: '@'
+      trigger: '' // '@'
     };
   }
 
@@ -50,7 +55,14 @@ class App extends Component {
   }
 
   handleRequestOptions(str) {
-    console.log(`Requesting options for string: ${str}`);
+    console.log(`Requesting options for string: ${str.length} ${str}`);
+    this.setState({ options: searchEngine.autoSuggest(str).map(({ suggestion }) => suggestion) })
+    // this.setState({options: (str.length) ? searchEngine.autoSuggest(str).map(({ suggestion }) => suggestion) : []})
+    /*
+    if (str.length > 1)
+    this.setState({ options: searchEngine.autoSuggest(str).map(({ suggestion }) => suggestion) })
+    else this.setState({ options: [] })
+    */
   }
 
   handleRequestOnlyIfNoOptions(e) {
@@ -76,8 +88,6 @@ class App extends Component {
       <div>
         <div>
           <h2>AutoCompletion demo</h2>
-          <pre style={{overflow: 'scroll', height: 300}}>{JSON.stringify(idx, null, 2)}</pre>
-          <p><i>Hint:</i> input "@a" to see in action</p>
           <TextField
             disabled={this.state.disabled}
             style={{ width: '300px', height: '100px', display: 'block' }}
@@ -93,6 +103,19 @@ class App extends Component {
         </div>
         <hr style={{ margin: '20px 0' }} />
         <h2>Options</h2>
+        <div className="option-block">
+          <h3>options : array</h3>
+          <p>List of autocomplete options</p>
+          <p>Default value: []</p>
+          <p>Demo options</p>
+          <ul className='options'>
+            {options}
+          </ul>
+          <div className="field">
+            <input ref={c => { this.refOptionField = c; }} />
+          </div>
+          <button onClick={this.handleAddOption}>Add</button>
+        </div>
         <div className="option-block">
           <h3>trigger : string</h3>
           <p>Show autocomplete option list if trigger string is met.</p>
@@ -110,7 +133,7 @@ class App extends Component {
           </div>
         </div>
         <div className="option-block">
-          <h3>spacer : sting</h3>
+          <h3>spacer : string</h3>
           <p>Character to add after selected option.</p>
           <p>Default value: ' '.</p>
           <div className="field">
@@ -124,19 +147,6 @@ class App extends Component {
           <div className="field">
             <input onChange={this.handleMaxOptionChange} value={this.state.maxOptions} />
           </div>
-        </div>
-        <div className="option-block">
-          <h3>options : array</h3>
-          <p>List of autocomplete options</p>
-          <p>Default value: []</p>
-          <p>Demo options</p>
-          <ul className='options'>
-            {options}
-          </ul>
-          <div className="field">
-            <input ref={c => { this.refOptionField = c; }} />
-          </div>
-          <button onClick={this.handleAddOption}>Add</button>
         </div>
         <div className="option-block">
           <h3>requestOnlyIfNoOptions : boolean</h3>
